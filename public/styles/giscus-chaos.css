@@ -1,0 +1,69 @@
+/* public/styles/giscus-chaos.css */
+
+main {
+    /* 1. BACKGROUNDS */
+    --color-canvas-default: #000000;       /* Main Background */
+    --color-canvas-overlay: #12001f;       /* Dropdowns/Modals */
+    --color-canvas-subtle: #0a0a0a;        /* Comment Bubble Background */
+    
+    /* 2. TEXT COLORS */
+    --color-fg-default: #39ff14;           /* Main Text (Acid Green) */
+    --color-fg-muted: #b026ff;             /* Secondary Text (Neon Purple) */
+    --color-fg-subtle: #888888;            /* Meta Text (Dates) */
+    
+    /* 3. BORDERS */
+    --color-border-default: #b026ff;       /* Main Borders (Purple) */
+    --color-border-muted: #39ff14;         /* Secondary Borders (Green) */
+    
+    /* 4. LINKS & ACCENTS */
+    --color-accent-fg: #ff00ff;            /* Links (Neon Pink) */
+    --color-accent-emphasis: #ff00ff;      /* Focus states */
+    
+    /* 5. BUTTONS */
+    --color-btn-text: #000000;
+    --color-btn-bg: #b026ff;               /* Purple Buttons */
+    --color-btn-border: #000000;
+    --color-btn-hover-bg: #39ff14;         /* Green on Hover */
+    --color-btn-hover-border: #000000;
+    --color-btn-primary-bg: #39ff14;       /* Primary Action */
+    --color-btn-primary-text: #000000;
+    
+    /* 6. INPUT FIELDS */
+    --color-input-bg: #000000;
+    --color-input-contrast-bg: #000000;
+    --color-input-border: #b026ff;
+    
+    /* FONT SETTINGS */
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+}
+
+/* CUSTOM TWEAKS */
+.gsc-comment-box {
+    border: 2px solid var(--color-border-default);
+    background: black;
+}
+
+.gsc-comment {
+    border-bottom: 1px dashed var(--color-border-muted);
+}
+
+.gsc-header {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+/* Make Avatars Square for that retro feel */
+.gsc-comment-author-avatar img {
+    border-radius: 0 !important;
+    border: 2px solid var(--color-border-muted);
+}
+
+/* The Submit Button Style */
+.gsc-main > .gsc-comment-box .gsc-comment-box-bottom .gsc-button {
+    border: 2px outset white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    text-transform: uppercase;
+}
