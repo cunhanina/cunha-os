@@ -2,118 +2,200 @@
 import '../styles/global.css';
 import WinampWidget from '../components/WinampWidget.astro'; 
 import { projects } from '../data/projects.js';
+
+// EXPERIENCE DATA
+const experience = [
+  {
+    role: "CNC PROGRAMMER",
+    company: "BOSCH (Curitiba, PR)",
+    date: "2025_JUL :: PRESENT",
+    desc: "> Programmed & simulated CNC machines for critical parts.\n> Optimized machining routines & simulation workflows.\n> Ensured precision/quality in manufacturing."
+  },
+  {
+    role: "ADVANCED MFG APPRENTICE",
+    company: "BOSCH (Curitiba, PR)",
+    date: "2023_JUL :: 2025_JUL",
+    desc: "> Automated administrative processes (Tooling Dept).\n> Managed supplier relations & demand via SAP ERP.\n> Developed automated solutions blending electronics/mechanics.\n\n[LEADERSHIP ROLE]: Served as Class Leader, managing team communication and faculty integration."
+  }
+];
+
+// EDUCATION DATA
+const education = [
+  {
+    school: "UniSenai",
+    degree: "Bachelor's in Mechatronics Engineering",
+    date: "2024 :: 2029 (Ongoing)"
+  },
+  {
+    school: "UFMS",
+    degree: "Technologist in Data Science",
+    date: "2023 :: 2025"
+  },
+  {
+    school: "TECPUC",
+    degree: "Technical High School in Information Technology", 
+    date: "2020 :: 2022"
+  }
+];
 ---
 
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>NINA_CUNHA // SYSTEM_OVERRIDE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
     
-    <style>
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-        .blink-text { animation: blink 1s infinite; }
-        .glitch-text:hover { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--acid-green); }
-    </style>
+    <title>NINA_CUNHA // SYSTEM_OVERRIDE</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<div id="project-data-store" data-projects={JSON.stringify(projects)} style="display:none;"></div>
 
 <div class="master-container">
     
     <div class="topnav">
-        <div class="glitch-hover" style="cursor: help;">MySpace.com // CHAOS_MODE</div>
-        <div class="topnav-links pixel-font" style="font-size: 10px;">
-            <a href="#">[Home]</a> <a href="#">[Search]</a> <a href="#">[Logout]</a>
+        <div class="font-press glitch-text" style="font-size: 18px;">MySpace.com // CHAOS_MODE</div>
+        <div class="font-press" style="font-size: 14px;">
+            <a href="#" class="link-hover">[Home]</a> 
+            <a href="#" class="link-hover">[Search]</a> 
+            <a href="#" class="link-hover">[Logout]</a>
         </div>
     </div>
 
-    <div style="background: black; color: var(--acid-green); border-bottom: 3px solid var(--neon-purple); font-family: 'Press Start 2P'; font-size: 10px; padding: 8px;">
+    <div class="marquee-bar font-press">
         <marquee scrollamount="12">
-            *** WELCOME TO THE DIGITAL VOID *** NINA CUNHA ONLINE *** PYTHON // C++ // CHAOS *** DON'T FORGET TO SIGN THE GUESTBOOK ***
+            *** WELCOME TO THE DIGITAL VOID *** NINA CUNHA ONLINE *** INDUSTRIAL AUTOMATION // DATA SCIENCE *** DON'T FORGET TO SIGN THE GUESTBOOK ***
         </marquee>
     </div>
 
-    <div style="padding: 25px 20px; display: flex; justify-content: space-between; align-items: flex-end; background: rgba(255,255,255,0.5); backdrop-filter: blur(2px);">
+    <div class="sub-header">
         <div>
-            <h1 class="glitch-text" style="color: var(--neon-purple); font-size: 28px; text-shadow: 3px 3px var(--acid-green); margin-bottom: 5px;">Nina Cunha</h1>
-            <p style="margin: 0; font-weight: bold; font-size: 20px;">"Automating the boring stuff since 2023"</p>
+            <h1 class="glitch-text" style="color: var(--neon-purple); font-size: 48px; text-shadow: 4px 4px var(--acid-green); margin-bottom: 10px;">Nina Cunha</h1>
+            <p style="margin: 0; font-weight: bold; font-size: 24px;">"Automating the boring stuff since 2019"</p>
         </div>
-        <div style="text-align: right;" class="pixel-font">
-            <p style="font-size: 10px;">LAST LOGIN: <span id="last-login" style="color: red;">CONNECTING...</span></p>
-            <p>STATUS: <span class="blink-text" style="color: var(--acid-green);">ONLINE</span></p>
+        <div class="text-right font-press mt-10">
+            <p style="font-size: 14px;">LAST LOGIN: <span id="last-login" style="color: red;">CONNECTING...</span></p>
+            <p style="font-size: 16px;">STATUS: <span class="blink-text" style="color: var(--acid-green);">ONLINE</span></p>
         </div>
     </div>
 
     <div class="profile-grid">
         
         <div class="left-col">
-            <div class="content-box" style="transform: rotate(-1deg);"> 
-                <div class="box-body" style="text-align: center; background: black;">
-                    <img src="https://github.com/cunhanina.png" style="width: 100%; border: 3px solid var(--neon-pink); filter: contrast(120%) sepia(20%); box-shadow: 4px 4px 0px var(--neon-purple);" />
-                    <p style="color: white; margin-top: 10px;">Mood: 👾 Glitched</p>
+            
+            <div class="content-box tilt-left"> 
+                <div class="box-body text-center bg-black">
+                    <img src="https://github.com/cunhanina.png" class="profile-img" />
+                    <p class="text-white mt-20" style="font-size: 22px;">Mood: 👾 Glitched</p>
+                    <p class="text-grey" style="font-size: 16px;">Loc: Curitiba, PR</p>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-header font-press">SYSTEM_DATA</div>
+                <div class="box-body bg-black">
+                    <a href="/cv.pdf" download="Nina_Cunha_CV.pdf" class="cv-button font-press">
+                        [💾 DOWNLOAD CV]
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-header font-press">SKILL_INVENTORY</div>
+                <div class="box-body bg-trans">
+                    <div class="chaos-bento">
+                        <div class="bento-item font-press">CNC_Sim</div>
+                        <div class="bento-item font-press">Python</div>
+                        <div class="bento-item font-press">SolidWorks</div>
+                        <div class="bento-item font-press">Arduino</div>
+                        <div class="bento-item font-press">SAP_ERP</div>
+                        <div class="bento-item font-press">MongoDB</div>
+                    </div>
                 </div>
             </div>
 
             <WinampWidget />
 
             <div class="content-box">
-                <div class="box-header">SYSTEM THEME</div>
-                <div class="box-body" style="text-align: center;">
-                    <p style="font-size: 12px; margin-bottom: 5px;">SELECT VIBE:</p>
-                    <button onclick="setTheme('purple')" style="background: #b026ff; width: 20px; height: 20px; border: 2px solid black; cursor: pointer;"></button>
-                    <button onclick="setTheme('green')" style="background: #39ff14; width: 20px; height: 20px; border: 2px solid black; cursor: pointer;"></button>
-                    <button onclick="setTheme('red')" style="background: #ff0000; width: 20px; height: 20px; border: 2px solid black; cursor: pointer;"></button>
-                </div>
-            </div>
-
-            <div class="content-box">
-                <div class="box-header">CONTACT PROTOCOLS</div>
-                <div class="box-body" style="font-size: 18px; line-height: 1.5;">
-                    <a href="https://github.com/cunhanina" target="_blank" class="glitch-hover">>> GITHUB</a><br>
-                    <a href="https://linkedin.com/in/nscunha" target="_blank" class="glitch-hover">>> LINKEDIN</a>
+                <div class="box-header font-press">CONTACT PROTOCOLS</div>
+                <div class="box-body" style="font-size: 22px; line-height: 1.6;">
+                    <a href="https://github.com/cunhanina" target="_blank" class="link-hover">>> GITHUB</a><br>
+                    <a href="https://linkedin.com/in/nscunha" target="_blank" class="link-hover">>> LINKEDIN</a><br>
+                    <a href="mailto:stayerim@gmail.com" class="link-hover">>> EMAIL</a>
                 </div>
             </div>
             
-             <div class="content-box">
-                <div class="box-header">WEAPONS OF CHOICE</div>
-                <div class="box-body">
-                    <ul style="padding-left: 20px; list-style-type: square; color: var(--neon-purple);">
-                        <li><span style="color: black;">Python / OpenCV</span></li>
-                        <li><span style="color: black;">C++ / Simulation</span></li>
-                        <li><span style="color: black;">Industrial Automation</span></li>
-                    </ul>
+            <div class="content-box">
+                <div class="box-header font-press">THEME</div>
+                <div class="box-body text-center">
+                    <button onclick="setTheme('purple')" class="theme-btn" style="background: #b026ff;"></button>
+                    <button onclick="setTheme('green')" class="theme-btn" style="background: #39ff14;"></button>
+                    <button onclick="setTheme('red')" class="theme-btn" style="background: #ff0000;"></button>
                 </div>
             </div>
         </div>
 
         <div class="right-col">
             
-            <div class="content-box" style="transform: rotate(1deg);"> 
-                <div class="box-header" style="background: var(--acid-green); color: black;">NINA'S BLURBS</div>
+            <div class="content-box tilt-right"> 
+                <div class="box-header font-press" style="background: var(--acid-green); color: black;">NINA'S BLURBS</div>
                 <div class="box-body">
-                    <h4 style="color: var(--neon-purple); margin-bottom: 10px;">// WHO_AM_I:</h4>
-                    <p>I am a developer focused on industrial solutions based in Brazil.</p>
-                    <p>My work bridges the gap between hardware (CNC machines) and software (Python/C++).</p>
-                    <br/>
-                    <h4 style="color: var(--neon-purple); margin-bottom: 10px;">// WHY I WAS BUILT:</h4>
-                    <p>To solve specific problems in the industrial automation sector using <strong>Computer Vision</strong> and <strong>Simulation Tools</strong>.</p>
+                    <h4 style="color: var(--neon-purple); margin-bottom: 15px;">// OBJECTIVE:</h4>
+                    <p style="font-size: 26px;">Experienced Engineer at the intersection of <strong>Data, Software, and Industrial Systems</strong>.</p>
+                    <p style="font-size: 22px; margin-top: 15px;">Specializing in <strong>Advanced Manufacturing</strong> (CNC, SolidWorks), <strong>Intelligent Systems</strong>, and <strong>Production-Oriented Solutions</strong>.</p>
                 </div>
             </div>
 
             <div class="content-box">
-                <div class="box-header">FRIEND SPACE (TOP PROJECTS)</div>
-                <div class="box-body" style="background: black;">
-                    <div style="color: white; margin-bottom: 10px; font-size: 12px;">
-                        Nina has <span style="color: var(--acid-green);">{projects.length}</span> projects.
+                <div class="box-header font-press">EXPERIENCE</div>
+                <div class="box-body bg-black sys-log-container">
+                    {experience.map(job => (
+                        <div class="sys-log-item">
+                            <div class="sys-bullet font-press">>></div>
+                            <div class="sys-date font-press">[{job.date}]</div>
+                            <div class="sys-role font-press">
+                                {job.role} <span class="text-white" style="font-size:16px;">@ {job.company}</span>
+                            </div>
+                            <div class="sys-desc font-vt">
+                                {job.desc}
+                            </div>
+                        </div>
+                    ))}
+                    
+                    <h4 style="color: var(--neon-purple); margin: 40px 0 20px 0;">// EDUCATION_DB:</h4>
+                     {education.map(edu => (
+                        <div class="sys-log-item edu">
+                            <div class="sys-bullet pink font-press">>></div>
+                            <div class="sys-date pink font-press">[{edu.date}]</div>
+                            <div class="sys-role font-press text-white" style="color: white !important;">{edu.degree}</div>
+                            <div class="sys-desc" style="color: #ccc;">{edu.school}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-header font-press">TOP PROJECTS</div>
+                <div class="box-body bg-black">
+                    <div class="text-white mb-15" style="font-size: 16px;">
+                        Nina has <span style="color: var(--acid-green);">{projects.length}</span> executables found.
                     </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; text-align: center;">
-                        {projects.map((p) => (
-                            <div class="project-card">
-                                <a href={p.github || '#'} target="_blank">
-                                    <img src={p.icon ? p.icon : p.image} alt={p.title} loading="lazy" />
-                                </a>
-                                <h4 style="margin: 8px 0; font-size: 10px;"><a href={p.github || '#'}>{p.title}</a></h4>
+                    
+                    <div class="project-grid">
+                        {projects.map((p, index) => (
+                            <div class="project-card" onclick={`openProject(${index})`}>
+                                <img src={p.icon || '/icons/default_icon.png'} 
+                                     alt={p.title} 
+                                     loading="lazy"
+                                     onerror="this.src='/icons/default_icon.png'" />
+                                <h4 class="project-title font-press">
+                                    {p.title}.EXE
+                                </h4>
                             </div>
                         ))}
                     </div>
@@ -121,8 +203,8 @@ import { projects } from '../data/projects.js';
             </div>
 
             <div class="content-box">
-                <div class="box-header">THE WALL (LEAVE A MESSAGE)</div>
-                <div class="box-body">
+                <div class="box-header font-press">GUESTBOOK</div>
+                <div class="box-body bg-black" style="min-height: 200px;">
                     <script src="https://giscus.app/client.js"
                         data-repo="cunhanina/cunha-os"
                         data-repo-id="R_kgDOQzL5Bw"
@@ -132,30 +214,66 @@ import { projects } from '../data/projects.js';
                         data-strict="0"
                         data-reactions-enabled="1"
                         data-emit-metadata="0"
-                        data-input-position="bottom"
-                        data-theme="purple_dark"
+                        data-input-position="top"
+                        data-theme="transparent_dark" 
                         data-lang="en"
                         crossorigin="anonymous"
                         async>
-                </script>
+                    </script>
                 </div>
             </div>
 
-        </div> </div> <div style="text-align: center; padding: 20px; font-size: 12px; font-family: 'VT323';">
+        </div> </div> <div class="text-center font-vt" style="padding: 30px;">
         <p>© 2005-2026 MYSPACE.COM // SYSTEM_ERR_404</p>
     </div>
 
 </div>
+
+<dialog id="project-modal" onclick="closeOnBackdrop(event)">
+    <div class="modal-box">
+        <div class="box-header" style="background: red; color: white; display: flex; justify-content: space-between;">
+            <span id="modal-title" class="font-press">SYSTEM_WARNING</span>
+            <button onclick="closeModal()" class="bg-trans font-press text-white" style="cursor: pointer;">X</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="modal-content-row">
+                <div class="text-center" style="width: 150px; flex-shrink: 0; margin: 0 auto;">
+                    <img id="modal-img" src="" style="width: 150px; height: 150px; border: 4px solid var(--acid-green); margin-bottom: 15px; image-rendering: pixelated;" />
+                    <p class="font-press text-grey" style="font-size: 14px;">SIZE: 14MB</p>
+                </div>
+                
+                <div style="flex-grow: 1;">
+                    <p class="font-press mb-10" style="color: var(--neon-purple); font-size: 14px;">// DESCRIPTION:</p>
+                    <p id="modal-desc" class="font-vt" style="font-size: 22px; line-height: 1.6; margin-bottom: 30px; color: #ddd;">
+                        Loading data...
+                    </p>
+                    
+                    <p class="font-press mb-10" style="color: var(--neon-purple); font-size: 14px;">// TECH STACK:</p>
+                    <ul id="modal-tech" class="font-vt" style="font-size: 20px; color: var(--acid-green); padding-left: 20px; margin-bottom: 25px; line-height: 1.5;"></ul>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <span class="blink-text font-press" style="color: red; font-size: 14px;">> WAITING FOR INPUT...</span>
+                <div style="display: flex; gap: 15px;">
+                    <button onclick="closeModal()" class="sys-btn">[ABORT]</button>
+                    <a id="modal-link" href="#" target="_blank">
+                        <button class="sys-btn green">[EXECUTE REPO]</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
 
 <script is:inline>
     // 1. DATE LOGIC
     const dateElement = document.getElementById('last-login');
     const today = new Date().toLocaleDateString();
     
-    // Safety check just in case
     if(dateElement) {
         dateElement.innerText = today;
-        // Occasional Glitch Effect
         setInterval(() => {
             if(Math.random() > 0.9) {
                 dateElement.innerText = "ERR_CORRUPT";
@@ -165,10 +283,10 @@ import { projects } from '../data/projects.js';
                     dateElement.style.color = "red";
                 }, 200);
             }
-        }, 2000);
+        }, 3000);
     }
 
-    // 2. THEME SWITCHER LOGIC
+    // 2. THEME SWITCHER
     function setTheme(color) {
         const root = document.documentElement;
         if(color === 'green') {
@@ -180,6 +298,58 @@ import { projects } from '../data/projects.js';
         } else {
             root.style.setProperty('--neon-purple', '#b026ff');
             root.style.setProperty('--acid-green', '#39ff14');
+        }
+    }
+
+    // 3. MODAL LOGIC
+    const modal = document.getElementById('project-modal');
+    const dataStore = document.getElementById('project-data-store');
+    
+    let allProjects = [];
+    if(dataStore && dataStore.getAttribute('data-projects')) {
+        try {
+            allProjects = JSON.parse(dataStore.getAttribute('data-projects'));
+        } catch(e) {
+            console.error("DATA CORRUPTION DETECTED", e);
+        }
+    }
+
+    function openProject(index) {
+        if(!allProjects[index]) return;
+        const p = allProjects[index];
+        
+        document.getElementById('modal-title').innerText = "PROPERTIES: " + p.title.toUpperCase();
+        document.getElementById('modal-desc').innerText = p.description || "NO DESCRIPTION FOUND.";
+        document.getElementById('modal-img').src = p.icon || '/icons/default_icon.png';
+        document.getElementById('modal-link').href = p.github || "#";
+        
+        const techList = document.getElementById('modal-tech');
+        techList.innerHTML = ""; 
+        if(p.tech && Array.isArray(p.tech)) {
+            p.tech.forEach(t => {
+                const li = document.createElement('li');
+                li.innerText = t;
+                techList.appendChild(li);
+            });
+        } else {
+             techList.innerHTML = "<li>UNKNOWN_ARCH</li>";
+        }
+
+        if(modal) modal.showModal();
+    }
+
+    function closeModal() {
+        if(modal) modal.close();
+    }
+
+    function closeOnBackdrop(e) {
+        const modalBox = document.querySelector('.modal-box');
+        if(modalBox) {
+            const rect = modalBox.getBoundingClientRect();
+            if (e.clientX < rect.left || e.clientX > rect.right || 
+                e.clientY < rect.top || e.clientY > rect.bottom) {
+                modal.close();
+            }
         }
     }
 </script>

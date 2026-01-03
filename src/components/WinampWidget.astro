@@ -1,32 +1,30 @@
----
-// src/components/WinampWidget.astro
----
-<div class="content-box">
-    <div class="box-header" style="background: var(--neon-pink); color: black; display: flex; justify-content: space-between;">
-        <span>WINAMP v1.0</span>
+<div class="content-box winamp-container">
+    <div class="box-header font-press" style="display: flex; justify-content: space-between;">
+        <span>FAV SONG</span>
         <span style="cursor: pointer;">[X]</span>
     </div>
     
-    <div class="box-body" style="background: #1a1a1a; color: var(--acid-green); padding: 10px;">
+    <div class="box-body bg-black" style="padding: 15px;">
         
-        <div style="border: 2px inset grey; padding: 5px; margin-bottom: 10px; background: black; position: relative;">
-            <marquee id="song-title" scrolldelay="200" style="font-family: 'Press Start 2P'; font-size: 8px;">
-                NOT PLAYING... CLICK PLAY TO START CHAOS
+        <div class="lcd-screen mb-15">
+            <marquee id="song-title" scrolldelay="200" class="font-vt">
+                CLICK [PLAY] TO INITIALIZE
             </marquee>
         </div>
 
-        <div id="visualizer" style="display: flex; gap: 3px; justify-content: center; height: 30px; align-items: flex-end; margin-bottom: 10px;">
+        <div id="visualizer" class="viz-container mb-15">
             </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; gap: 2px;">
-                <button id="btn-prev" class="win-btn">|&lt;</button>
-                <button id="btn-play" class="win-btn">PLAY</button>
-                <button id="btn-stop" class="win-btn">STOP</button>
-                <button id="btn-next" class="win-btn">&gt;|</button>
-            </div>
-            
-            <button id="btn-like" class="win-btn" style="color: red;">
+        <div class="controls-row mb-10">
+            <button id="btn-prev" class="win-btn font-press">|&lt;</button>
+            <button id="btn-play" class="win-btn font-press">PLAY</button>
+            <button id="btn-stop" class="win-btn font-press">STOP</button>
+            <button id="btn-next" class="win-btn font-press">&gt;|</button>
+        </div>
+        
+        <div class="controls-row">
+            <div class="time-display font-vt">00:00</div>
+            <button id="btn-like" class="win-btn font-press" style="color: red;">
                 ♥ <span id="like-count">666</span>
             </button>
         </div>
@@ -38,20 +36,70 @@
 </div>
 
 <style>
-    .win-btn {
-        font-family: 'Press Start 2P'; 
-        font-size: 8px; 
-        cursor: pointer; 
-        background: silver; 
-        border: 2px outset white;
-        padding: 4px;
+    /* COMPONENT-SPECIFIC STYLES */
+    
+    /* LCD Screen: Green text on dark background */
+    .lcd-screen {
+        background: #0f1f0f;
+        border: 2px inset #333;
+        padding: 10px;
+        color: var(--acid-green);
+        font-size: 18px; /* Readable size */
+        text-shadow: 0 0 5px var(--acid-green);
     }
-    .win-btn:active { border: 2px inset white; }
-    .bar { width: 5px; background: var(--acid-green); transition: height 0.1s; }
+
+    /* Visualizer Container */
+    .viz-container {
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+        height: 50px; /* Taller bars */
+        align-items: flex-end;
+        background: #111;
+        border: 1px solid #333;
+        padding: 2px;
+    }
+
+    /* Controls Layout */
+    .controls-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Buttons: Matching the site's "sys-btn" aesthetic */
+    .win-btn {
+        background: silver;
+        border: 2px outset white;
+        font-size: 10px;
+        padding: 8px 5px;
+        cursor: pointer;
+        flex-grow: 1;
+        font-family: 'Press Start 2P', cursive;
+    }
+    .win-btn:active {
+        border: 2px inset white;
+        background: #a0a0a0;
+    }
+    .win-btn:hover {
+        background: white;
+    }
+
+    /* Time Display */
+    .time-display {
+        background: black;
+        color: var(--acid-green);
+        border: 2px inset #555;
+        padding: 5px 10px;
+        font-size: 18px;
+        min-width: 60px;
+        text-align: center;
+    }
 </style>
 
 <script>
-    // SAFETY CHECKS ADDED TO PREVENT RED CODE
+    // DEFINE ELEMENTS
     const audio = document.getElementById('audio-player');
     const playBtn = document.getElementById('btn-play');
     const stopBtn = document.getElementById('btn-stop');
@@ -60,46 +108,29 @@
     const likeBtn = document.getElementById('btn-like');
     const likeCount = document.getElementById('like-count');
 
-    // 1. GENERATE VISUALIZER BARS (Only if visualizer exists)
+    // 1. GENERATE VISUALIZER BARS
     if (visualizer) {
-        for(let i=0; i<10; i++) {
+        visualizer.innerHTML = ''; // Clear existing
+        for(let i=0; i<12; i++) { // More bars
             const bar = document.createElement('div');
             bar.className = 'bar';
+            bar.style.width = '100%'; 
             bar.style.height = '5px';
-            bar.style.backgroundColor = i > 6 ? 'red' : (i > 4 ? 'yellow' : '#39ff14');
+            bar.style.backgroundColor = i > 8 ? '#ff0000' : (i > 5 ? '#ffff00' : '#39ff14');
+            bar.style.transition = 'height 0.1s ease';
             visualizer.appendChild(bar);
         }
     }
 
-    // 2. PLAY FUNCTION
-    if (playBtn && audio && marquee) {
-        playBtn.addEventListener('click', () => {
-            (audio as HTMLAudioElement).play(); // Type assertion for VS Code
-            marquee.innerText = "NOW PLAYING: SYSTEM_CRASH_LOFI.mp3 [128kbps] ***";
-            startVisualizer();
-        });
-    }
+    // 2. VISUALIZER VARIABLES
+    let vizInterval: any = null;
 
-    // 3. STOP FUNCTION
-    if (stopBtn && audio && marquee) {
-        stopBtn.addEventListener('click', () => {
-            (audio as HTMLAudioElement).pause();
-            (audio as HTMLAudioElement).currentTime = 0;
-            marquee.innerText = "STOPPED.";
-            stopVisualizer();
-        });
-    }
-
-    // 4. VISUALIZER ANIMATION
-    let vizInterval;
-    
     function startVisualizer() {
         clearInterval(vizInterval);
         vizInterval = setInterval(() => {
-            const bars = document.querySelectorAll('.bar');
+            const bars = document.querySelectorAll('.viz-container div');
             bars.forEach((bar) => {
-                // Cast to HTMLElement to fix style error
-                const h = Math.floor(Math.random() * 25) + 5;
+                const h = Math.floor(Math.random() * 40) + 5; // Taller variations
                 (bar as HTMLElement).style.height = h + 'px';
             });
         }, 100);
@@ -107,8 +138,27 @@
 
     function stopVisualizer() {
         clearInterval(vizInterval);
-        const bars = document.querySelectorAll('.bar');
+        const bars = document.querySelectorAll('.viz-container div');
         bars.forEach((b) => (b as HTMLElement).style.height = '5px');
+    }
+
+    // 3. PLAY BUTTON
+    if (playBtn && audio && marquee) {
+        playBtn.addEventListener('click', () => {
+            (audio as HTMLAudioElement).play();
+            marquee.innerText = "NOW PLAYING: NOW ZERO BY CLEOPATRICK";
+            startVisualizer();
+        });
+    }
+
+    // 4. STOP BUTTON
+    if (stopBtn && audio && marquee) {
+        stopBtn.addEventListener('click', () => {
+            (audio as HTMLAudioElement).pause();
+            (audio as HTMLAudioElement).currentTime = 0;
+            marquee.innerText = "STOPPED.";
+            stopVisualizer();
+        });
     }
 
     // 5. LIKE BUTTON LOGIC
@@ -122,7 +172,7 @@
             localStorage.setItem('my_likes', likes.toString());
             
             // Glitch effect
-            likeBtn.style.transform = "scale(1.5) rotate(10deg)";
+            likeBtn.style.transform = "scale(1.1) rotate(5deg)";
             likeBtn.style.color = "#ff00ff";
             setTimeout(() => {
                 likeBtn.style.transform = "scale(1) rotate(0deg)";
