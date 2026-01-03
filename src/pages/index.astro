@@ -1,11 +1,173 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import '../styles/global.css';
+import WinampWidget from '../components/WinampWidget.astro'; 
+import { projects } from '../data/projects.js';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>NINA_CUNHA // SYSTEM_OVERRIDE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+        .blink-text { animation: blink 1s infinite; }
+        .glitch-text:hover { text-shadow: 2px 2px var(--neon-pink), -2px -2px var(--acid-green); }
+    </style>
+</head>
+<body>
+
+<div class="master-container">
+    
+    <div class="topnav">
+        <div class="glitch-hover" style="cursor: help;">MySpace.com // CHAOS_MODE</div>
+        <div class="topnav-links pixel-font" style="font-size: 10px;">
+            <a href="#">[Home]</a> <a href="#">[Search]</a> <a href="#">[Logout]</a>
+        </div>
+    </div>
+
+    <div style="background: black; color: var(--acid-green); border-bottom: 3px solid var(--neon-purple); font-family: 'Press Start 2P'; font-size: 10px; padding: 8px;">
+        <marquee scrollamount="12">
+            *** WELCOME TO THE DIGITAL VOID *** NINA CUNHA ONLINE *** PYTHON // C++ // CHAOS *** DON'T FORGET TO SIGN THE GUESTBOOK ***
+        </marquee>
+    </div>
+
+    <div style="padding: 25px 20px; display: flex; justify-content: space-between; align-items: flex-end; background: rgba(255,255,255,0.5); backdrop-filter: blur(2px);">
+        <div>
+            <h1 class="glitch-text" style="color: var(--neon-purple); font-size: 28px; text-shadow: 3px 3px var(--acid-green); margin-bottom: 5px;">Nina Cunha</h1>
+            <p style="margin: 0; font-weight: bold; font-size: 20px;">"Automating the boring stuff since 2023"</p>
+        </div>
+        <div style="text-align: right;" class="pixel-font">
+            <p style="font-size: 10px;">LAST LOGIN: <span id="last-login" style="color: red;">CONNECTING...</span></p>
+            <p>STATUS: <span class="blink-text" style="color: var(--acid-green);">ONLINE</span></p>
+        </div>
+    </div>
+
+    <div class="profile-grid">
+        
+        <div class="left-col">
+            <div class="content-box" style="transform: rotate(-1deg);"> 
+                <div class="box-body" style="text-align: center; background: black;">
+                    <img src="https://github.com/cunhanina.png" style="width: 100%; border: 3px solid var(--neon-pink); filter: contrast(120%) sepia(20%); box-shadow: 4px 4px 0px var(--neon-purple);" />
+                    <p style="color: white; margin-top: 10px;">Mood: 👾 Glitched</p>
+                </div>
+            </div>
+
+            <WinampWidget />
+
+            <div class="content-box">
+                <div class="box-header">SYSTEM THEME</div>
+                <div class="box-body" style="text-align: center;">
+                    <p style="font-size: 12px; margin-bottom: 5px;">SELECT VIBE:</p>
+                    <button onclick="setTheme('purple')" style="background: #b026ff; width: 20px; height: 20px; border: 2px solid black; cursor: pointer;"></button>
+                    <button onclick="setTheme('green')" style="background: #39ff14; width: 20px; height: 20px; border: 2px solid black; cursor: pointer;"></button>
+                    <button onclick="setTheme('red')" style="background: #ff0000; width: 20px; height: 20px; border: 2px solid black; cursor: pointer;"></button>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-header">CONTACT PROTOCOLS</div>
+                <div class="box-body" style="font-size: 18px; line-height: 1.5;">
+                    <a href="https://github.com/cunhanina" target="_blank" class="glitch-hover">>> GITHUB</a><br>
+                    <a href="https://linkedin.com/in/nscunha" target="_blank" class="glitch-hover">>> LINKEDIN</a>
+                </div>
+            </div>
+            
+             <div class="content-box">
+                <div class="box-header">WEAPONS OF CHOICE</div>
+                <div class="box-body">
+                    <ul style="padding-left: 20px; list-style-type: square; color: var(--neon-purple);">
+                        <li><span style="color: black;">Python / OpenCV</span></li>
+                        <li><span style="color: black;">C++ / Simulation</span></li>
+                        <li><span style="color: black;">Industrial Automation</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            
+            <div class="content-box" style="transform: rotate(1deg);"> 
+                <div class="box-header" style="background: var(--acid-green); color: black;">NINA'S BLURBS</div>
+                <div class="box-body">
+                    <h4 style="color: var(--neon-purple); margin-bottom: 10px;">// WHO_AM_I:</h4>
+                    <p>I am a developer focused on industrial solutions based in Brazil.</p>
+                    <p>My work bridges the gap between hardware (CNC machines) and software (Python/C++).</p>
+                    <br/>
+                    <h4 style="color: var(--neon-purple); margin-bottom: 10px;">// WHY I WAS BUILT:</h4>
+                    <p>To solve specific problems in the industrial automation sector using <strong>Computer Vision</strong> and <strong>Simulation Tools</strong>.</p>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-header">FRIEND SPACE (TOP PROJECTS)</div>
+                <div class="box-body" style="background: black;">
+                    <div style="color: white; margin-bottom: 10px; font-size: 12px;">
+                        Nina has <span style="color: var(--acid-green);">{projects.length}</span> projects.
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; text-align: center;">
+                        {projects.map((p) => (
+                            <div class="project-card">
+                                <a href={p.github || '#'} target="_blank">
+                                    <img src={p.icon ? p.icon : p.image} alt={p.title} loading="lazy" />
+                                </a>
+                                <h4 style="margin: 8px 0; font-size: 10px;"><a href={p.github || '#'}>{p.title}</a></h4>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <div class="box-header">THE WALL (LEAVE A MESSAGE)</div>
+                <div class="box-body">
+                   </div>
+            </div>
+
+        </div> </div> <div style="text-align: center; padding: 20px; font-size: 12px; font-family: 'VT323';">
+        <p>© 2005-2026 MYSPACE.COM // SYSTEM_ERR_404</p>
+    </div>
+
+</div>
+
+<script is:inline>
+    // 1. DATE LOGIC
+    const dateElement = document.getElementById('last-login');
+    const today = new Date().toLocaleDateString();
+    
+    // Safety check just in case
+    if(dateElement) {
+        dateElement.innerText = today;
+        // Occasional Glitch Effect
+        setInterval(() => {
+            if(Math.random() > 0.9) {
+                dateElement.innerText = "ERR_CORRUPT";
+                dateElement.style.color = "purple";
+                setTimeout(() => {
+                    dateElement.innerText = today;
+                    dateElement.style.color = "red";
+                }, 200);
+            }
+        }, 2000);
+    }
+
+    // 2. THEME SWITCHER LOGIC
+    function setTheme(color) {
+        const root = document.documentElement;
+        if(color === 'green') {
+            root.style.setProperty('--neon-purple', '#39ff14');
+            root.style.setProperty('--acid-green', '#b026ff'); 
+        } else if (color === 'red') {
+            root.style.setProperty('--neon-purple', '#ff0000');
+            root.style.setProperty('--acid-green', '#ffff00');
+        } else {
+            root.style.setProperty('--neon-purple', '#b026ff');
+            root.style.setProperty('--acid-green', '#39ff14');
+        }
+    }
+</script>
+
+</body>
+</html>

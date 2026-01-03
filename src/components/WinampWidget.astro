@@ -1,0 +1,133 @@
+---
+// src/components/WinampWidget.astro
+---
+<div class="content-box">
+    <div class="box-header" style="background: var(--neon-pink); color: black; display: flex; justify-content: space-between;">
+        <span>WINAMP v1.0</span>
+        <span style="cursor: pointer;">[X]</span>
+    </div>
+    
+    <div class="box-body" style="background: #1a1a1a; color: var(--acid-green); padding: 10px;">
+        
+        <div style="border: 2px inset grey; padding: 5px; margin-bottom: 10px; background: black; position: relative;">
+            <marquee id="song-title" scrolldelay="200" style="font-family: 'Press Start 2P'; font-size: 8px;">
+                NOT PLAYING... CLICK PLAY TO START CHAOS
+            </marquee>
+        </div>
+
+        <div id="visualizer" style="display: flex; gap: 3px; justify-content: center; height: 30px; align-items: flex-end; margin-bottom: 10px;">
+            </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 2px;">
+                <button id="btn-prev" class="win-btn">|&lt;</button>
+                <button id="btn-play" class="win-btn">PLAY</button>
+                <button id="btn-stop" class="win-btn">STOP</button>
+                <button id="btn-next" class="win-btn">&gt;|</button>
+            </div>
+            
+            <button id="btn-like" class="win-btn" style="color: red;">
+                ♥ <span id="like-count">666</span>
+            </button>
+        </div>
+        
+        <audio id="audio-player" preload="none">
+            <source src="/music/song.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+</div>
+
+<style>
+    .win-btn {
+        font-family: 'Press Start 2P'; 
+        font-size: 8px; 
+        cursor: pointer; 
+        background: silver; 
+        border: 2px outset white;
+        padding: 4px;
+    }
+    .win-btn:active { border: 2px inset white; }
+    .bar { width: 5px; background: var(--acid-green); transition: height 0.1s; }
+</style>
+
+<script>
+    // SAFETY CHECKS ADDED TO PREVENT RED CODE
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('btn-play');
+    const stopBtn = document.getElementById('btn-stop');
+    const marquee = document.getElementById('song-title');
+    const visualizer = document.getElementById('visualizer');
+    const likeBtn = document.getElementById('btn-like');
+    const likeCount = document.getElementById('like-count');
+
+    // 1. GENERATE VISUALIZER BARS (Only if visualizer exists)
+    if (visualizer) {
+        for(let i=0; i<10; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = '5px';
+            bar.style.backgroundColor = i > 6 ? 'red' : (i > 4 ? 'yellow' : '#39ff14');
+            visualizer.appendChild(bar);
+        }
+    }
+
+    // 2. PLAY FUNCTION
+    if (playBtn && audio && marquee) {
+        playBtn.addEventListener('click', () => {
+            (audio as HTMLAudioElement).play(); // Type assertion for VS Code
+            marquee.innerText = "NOW PLAYING: SYSTEM_CRASH_LOFI.mp3 [128kbps] ***";
+            startVisualizer();
+        });
+    }
+
+    // 3. STOP FUNCTION
+    if (stopBtn && audio && marquee) {
+        stopBtn.addEventListener('click', () => {
+            (audio as HTMLAudioElement).pause();
+            (audio as HTMLAudioElement).currentTime = 0;
+            marquee.innerText = "STOPPED.";
+            stopVisualizer();
+        });
+    }
+
+    // 4. VISUALIZER ANIMATION
+    let vizInterval;
+    
+    function startVisualizer() {
+        clearInterval(vizInterval);
+        vizInterval = setInterval(() => {
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach((bar) => {
+                // Cast to HTMLElement to fix style error
+                const h = Math.floor(Math.random() * 25) + 5;
+                (bar as HTMLElement).style.height = h + 'px';
+            });
+        }, 100);
+    }
+
+    function stopVisualizer() {
+        clearInterval(vizInterval);
+        const bars = document.querySelectorAll('.bar');
+        bars.forEach((b) => (b as HTMLElement).style.height = '5px');
+    }
+
+    // 5. LIKE BUTTON LOGIC
+    if (likeBtn && likeCount) {
+        let likes = parseInt(localStorage.getItem('my_likes') || '666');
+        likeCount.innerText = likes.toString();
+
+        likeBtn.addEventListener('click', () => {
+            likes++;
+            likeCount.innerText = likes.toString();
+            localStorage.setItem('my_likes', likes.toString());
+            
+            // Glitch effect
+            likeBtn.style.transform = "scale(1.5) rotate(10deg)";
+            likeBtn.style.color = "#ff00ff";
+            setTimeout(() => {
+                likeBtn.style.transform = "scale(1) rotate(0deg)";
+                likeBtn.style.color = "red";
+            }, 200);
+        });
+    }
+</script>

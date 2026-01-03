@@ -1,0 +1,82 @@
+---
+const { id, title, type = 'project', tech, description, image, github } = Astro.props;
+---
+<div id={id} class="window draggable" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 80vh; z-index: 100; box-shadow: 10px 10px 0px black; display: flex; flex-direction: column;">
+  
+  <div class="title-bar" style="cursor: grab;">
+    <div class="title-bar-text">{title}</div>
+    <div class="title-bar-controls">
+      <button aria-label="Minimize" onclick={`closeWindow('${id}')`}></button>
+      <button aria-label="Maximize"></button>
+      <button aria-label="Close" onclick={`closeWindow('${id}')`}></button>
+    </div>
+  </div>
+
+  <div class="window-body" style="flex: 1; overflow-y: auto; background: white; padding: 0; font-size: var(--text-main);">
+    
+    <div style="background: var(--myspace-blue); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="color: white; margin: 0; font-size: 1.5rem;">{title}</h2>
+        <div style="font-size: 0.9rem; color: white;">
+            [ <a href="#" style="color: white; text-decoration: underline;">Home</a> ] 
+            [ <a href="#" style="color: white; text-decoration: underline;">Search</a> ]
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 240px 1fr; gap: 20px; padding: 20px; background: #e5e5e5; min-height: 100%;">
+        
+        <div class="left-col">
+            <div style="border: 2px solid black; background: white; padding: 15px; text-align: center;">
+                {image ? <img src={image} style="width: 100%; margin-bottom: 10px; border: 2px solid black;" /> : null}
+                
+                <div style="border: 2px solid #6699cc; margin-top: 15px;">
+                    <div style="background: #6699cc; color: white; padding: 2px; font-weight: bold;">Contacting {title}</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 5px;">
+                        <a href={github} target="_blank"><img src="/icons/email.png" title="View Code" /></a>
+                        <img src="/icons/add-friend.png" title="Add to Friends" />
+                    </div>
+                </div>
+
+                {tech && (
+                    <div style="margin-top: 20px; text-align: left;">
+                        <p style="font-weight: bold; color: #6699cc;">Interests / Tech:</p>
+                        <ul style="padding-left: 20px; line-height: 1.4;">
+                            {tech.map((t) => <li>{t}</li>)}
+                        </ul>
+                    </div>
+                )}
+            </div>
+        </div>
+
+        <div class="right-col">
+            <div style="border: 2px solid black; background: white; padding: 20px; margin-bottom: 20px;">
+                <h3 style="background: var(--myspace-orange); padding: 5px; margin-top: 0;">{title}'s Blurbs</h3>
+                <p style="line-height: 1.6;">{description}</p>
+            </div>
+
+            <div style="border: 2px solid black; background: white; padding: 20px;">
+                <h3 style="background: var(--myspace-blue); color: white; padding: 5px; margin-top: 0;">
+                    {title}'s Friends Comments
+                </h3>
+                
+                <div class="giscus-container" style="margin-top: 20px;">
+                    <script src="https://giscus.app/client.js"
+                        data-repo="[YOUR_GITHUB_USERNAME]/[YOUR_REPO_NAME]"
+                        data-repo-id="[YOUR_REPO_ID]"
+                        data-category="General"
+                        data-category-id="[YOUR_CATEGORY_ID]"
+                        data-mapping="pathname"
+                        data-strict="0"
+                        data-reactions-enabled="1"
+                        data-emit-metadata="0"
+                        data-input-position="bottom"
+                        data-theme="light"
+                        data-lang="en"
+                        crossorigin="anonymous"
+                        async>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
