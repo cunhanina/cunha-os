@@ -148,6 +148,7 @@ export const en = {
   'experience.role.apprentice': 'Apprentice in Advanced Manufacturing',
   'experience.employment.internship': 'Internship',
   'experience.employment.fulltime': 'Full-time',
+  'experience.employment.apprentice': 'Apprentice',
   'experience.current': 'CURRENT',
   'timeline.present': 'Present',
   'experience.role.current.bullet.0':
@@ -173,7 +174,7 @@ export const en = {
   'experience.education': 'EDUCATION',
   'experience.education.inProgress': 'IN PROGRESS',
   'education.0.qualification': "Bachelor's degree",
-  'education.0.program': 'Mechatronics, Robotics and Automation Engineering',
+  'education.0.program': 'Mechatronics Engineering',
   'education.0.institution': 'UniSenai PR',
   'education.1.qualification': 'Postgraduate specialization',
   'education.1.program': 'Project Management',

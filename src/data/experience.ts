@@ -30,6 +30,7 @@ export const experience: ExperienceEntry[] = [
     id: 'experience-entry-2',
     title: 'experience.role.apprentice',
     company: 'Bosch',
+    subtitle: 'experience.employment.apprentice',
     date: { start: '2023-07', end: '2025-07' },
     location: 'experience.role.apprentice.location',
     bullets: [

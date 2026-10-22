@@ -156,6 +156,7 @@ const de = {
   'experience.role.apprentice': 'Auszubildende in der modernen Fertigung',
   'experience.employment.internship': 'Praktikum',
   'experience.employment.fulltime': 'Vollzeit',
+  'experience.employment.apprentice': 'Ausbildung',
   'experience.current': 'AKTUELL',
   'timeline.present': 'heute',
   'experience.role.current.bullet.0':
@@ -181,7 +182,7 @@ const de = {
   'experience.education': 'AUSBILDUNG',
   'experience.education.inProgress': 'LAUFEND',
   'education.0.qualification': 'Bachelorabschluss',
-  'education.0.program': 'Mechatronik, Robotik und Automatisierungstechnik',
+  'education.0.program': 'Mechatronikingenieurwesen',
   'education.0.institution': 'UniSenai PR',
   'education.1.qualification': 'Postgraduale Spezialisierung',
   'education.1.program': 'Projektmanagement',

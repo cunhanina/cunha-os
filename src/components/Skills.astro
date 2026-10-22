@@ -9,36 +9,50 @@ import SectionHeading from './SectionHeading.astro';
     {skillsPitch}
   </p>
   <div class="skill-groups">
-    {skillGroups.map((group) => (
+    {skillGroups.map((group, groupIndex) => (
       <div class="skill-row pixel-panel">
         <h3 class="skill-category" data-i18n={`skill.${group.category}`}>
           {group.category}
         </h3>
         <ul class="skill-list" aria-label={group.category} data-i18n-aria-label={`skill.${group.category}`}>
-          {group.skills.map((skill) => {
+          {group.skills.map((skill, skillIndex) => {
             const evidence = skill.evidence?.filter((item) => item.showLink !== false) ?? [];
+            const evidenceId = `skill-evidence-${groupIndex}-${skillIndex}`;
             return (
               <li class="pixel-chip skill-chip">
                 <span data-i18n={`skill.${skill.label}`}>{skill.label}</span>
                 {evidence.length > 0 && (
-                  <details class="skill-evidence">
-                    <summary aria-label="Supporting evidence sources" data-i18n-aria-label="skills.evidenceLabel">
-                      <span data-i18n="skills.evidence">SRC</span>
-                    </summary>
-                    <ul class="skill-evidence-list">
-                      {evidence.map((item) => (
-                        <li>
-                          <a
-                            href={item.href}
-                            target={item.external ? '_blank' : undefined}
-                            rel={item.external ? 'noopener noreferrer' : undefined}
-                          >
-                            <span data-i18n={item.translationKey}>{item.label}</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
+                  <button
+                    class="skill-evidence-trigger"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls={evidenceId}
+                    aria-label="Supporting evidence sources"
+                    data-i18n-aria-label="skills.evidenceLabel"
+                  >
+                    <span data-i18n="skills.evidence">SRC</span>
+                  </button>
+                )}
+                {evidence.length > 0 && (
+                  <ul
+                    id={evidenceId}
+                    class="skill-evidence-list"
+                    hidden
+                    aria-label={skill.label}
+                    data-i18n-aria-label={`skill.${skill.label}`}
+                  >
+                    {evidence.map((item) => (
+                      <li>
+                        <a
+                          href={item.href}
+                          target={item.external ? '_blank' : undefined}
+                          rel={item.external ? 'noopener noreferrer' : undefined}
+                        >
+                          <span data-i18n={item.translationKey}>{item.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </li>
             );
@@ -97,53 +111,47 @@ import SectionHeading from './SectionHeading.astro';
   }
 
   .skill-chip {
+    position: relative;
     gap: calc(var(--space-unit) / 2);
     min-height: 32px;
     padding: 6px 10px;
     font-size: 13px;
   }
 
-  .skill-evidence {
-    position: relative;
-  }
-
-  .skill-evidence summary {
+  .skill-evidence-trigger {
+    appearance: none;
     display: grid;
     min-width: 44px;
     min-height: 44px;
     place-items: center;
-    padding-inline: calc(var(--stack-gap) / 2);
+    padding: 0 calc(var(--stack-gap) / 2);
     border: var(--border-width) solid transparent;
+    background: transparent;
+    color: inherit;
     font-family: var(--font-body);
     font-size: 12px;
     font-weight: 700;
-    font-weight: 700;
-    list-style: none;
     cursor: pointer;
   }
 
-  .skill-evidence summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .skill-evidence summary:hover,
-  .skill-evidence summary:focus-visible {
+  .skill-evidence-trigger:hover,
+  .skill-evidence-trigger:focus-visible {
     border-color: var(--ink);
     background: var(--canvas);
   }
 
   .skill-evidence-list {
     position: absolute;
-    z-index: 2;
-    top: calc(100% + var(--stack-gap) / 2);
+    z-index: var(--z-skill-evidence);
+    top: calc(100% + 6px);
     left: 0;
     display: grid;
     gap: calc(var(--stack-gap) / 2);
     width: max-content;
-    max-width: min(
-      260px,
-      calc(100vw - var(--page-pad) - var(--page-pad) - env(safe-area-inset-left) - env(safe-area-inset-right))
-    );
+    max-width: min(20rem, calc(100vw - 2 * var(--page-pad)));
+    max-height: calc(100vh - 2 * var(--page-pad));
+    max-height: calc(100dvh - 2 * var(--page-pad));
+    overflow-y: auto;
     margin: 0;
     padding: var(--stack-gap);
     border: var(--border-width) solid var(--ink);
@@ -155,13 +163,13 @@ import SectionHeading from './SectionHeading.astro';
     list-style: none;
   }
 
-  .skill-evidence-list {
-    right: 0;
-    left: auto;
+  .skill-evidence-list[hidden] {
+    display: none;
   }
 
-  .skill-evidence:not([open]) .skill-evidence-list {
-    display: none;
+  .skill-evidence-list[data-placement='above'] {
+    top: auto;
+    bottom: calc(100% + 6px);
   }
 
   .skill-evidence-list a {
@@ -171,17 +179,6 @@ import SectionHeading from './SectionHeading.astro';
   @media (min-width: 760px) {
     .skill-groups {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 639px) {
-    .skill-evidence-list {
-      position: fixed;
-      top: 0;
-      right: auto;
-      left: 0;
-      max-height: calc(100dvh - var(--page-pad) - var(--page-pad));
-      overflow-y: auto;
     }
   }
 </style>

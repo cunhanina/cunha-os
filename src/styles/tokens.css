@@ -16,6 +16,7 @@
   --border-width: 2px;
   --hard-shadow: 4px 4px 0 var(--ink);
   --focus-outline: 3px solid var(--ink);
+  --z-skill-evidence: 9;
 }
 
 @media (max-width: 559px) {

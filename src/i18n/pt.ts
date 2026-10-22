@@ -155,6 +155,7 @@ const pt = {
   'experience.role.apprentice': 'Aprendiz em Manufatura Avançada',
   'experience.employment.internship': 'Estágio',
   'experience.employment.fulltime': 'Tempo integral',
+  'experience.employment.apprentice': 'Aprendiz',
   'experience.current': 'ATUAL',
   'timeline.present': 'atual',
   'experience.role.current.bullet.0':
@@ -181,7 +182,7 @@ const pt = {
   'experience.education': 'FORMAÇÃO',
   'experience.education.inProgress': 'EM ANDAMENTO',
   'education.0.qualification': 'Bacharelado',
-  'education.0.program': 'Engenharia Mecatrônica, Robótica e Automação',
+  'education.0.program': 'Engenharia Mecatrônica',
   'education.0.institution': 'UniSenai PR',
   'education.1.qualification': 'Especialização lato sensu',
   'education.1.program': 'Gestão de Projetos',
