@@ -1,0 +1,177 @@
+---
+import type { Project } from '../data/projects';
+import ProjectIcon from './ProjectIcon.astro';
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects }: Props = Astro.props;
+---
+
+{projects.map((project: Project) => (
+  <dialog
+    class="project-dialog"
+    id={`project-dialog-${project.order}`}
+    aria-labelledby={`project-title-${project.order}`}
+    aria-describedby={`project-description-${project.order}`}
+  >
+    <div class="dialog-panel">
+      <div class="dialog-header">
+        <span class="pixel-label">
+          <span data-i18n="projects.projectLabel">PROJECT</span> #{String(project.order).padStart(3, '0')}
+        </span>
+        <button
+          class="close-button"
+          type="button"
+          data-close-dialog
+          aria-label={`Close ${project.title} details`}
+          data-i18n-aria-label="projects.dialogClose"
+        >
+          X
+        </button>
+      </div>
+      <div class="dialog-content">
+        <ProjectIcon name={project.icon} className="dialog-icon" size={88} />
+        <h2 class="dialog-title" id={`project-title-${project.order}`} data-i18n={`project.${project.order}.title`}>
+          {project.title}
+        </h2>
+        <p
+          class="dialog-description"
+          id={`project-description-${project.order}`}
+          data-i18n={`project.${project.order}.description`}
+        >
+          {project.description}
+        </p>
+        <h3 class="stack-title" data-i18n="projects.dialogHeading">
+          TECH STACK
+        </h3>
+        <ul
+          class="stack-list"
+          aria-label={`${project.title} technology stack`}
+          data-i18n-aria-label="projects.techStack"
+        >
+          {project.tech.map((technology: string) => (
+            <li class="pixel-chip">{technology}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </dialog>
+))}
+
+<style>
+  .project-dialog {
+    position: fixed;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    width: min(
+      560px,
+      calc(100vw - var(--page-pad) - var(--page-pad) - env(safe-area-inset-left) - env(safe-area-inset-right))
+    );
+    max-width: 560px;
+    max-height: 90dvh;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    box-shadow: 6px 6px 0 var(--ink);
+    color: var(--ink);
+  }
+
+  .project-dialog[open] {
+    display: flex;
+  }
+
+  .project-dialog::backdrop {
+    background: color-mix(in srgb, var(--ink) 72%, transparent);
+  }
+
+  .dialog-panel {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    gap: var(--stack-gap);
+    min-height: 68px;
+    padding: var(--stack-gap);
+    border-bottom: var(--border-width) solid var(--ink);
+    background: var(--canvas);
+  }
+
+  .pixel-label,
+  .close-button,
+  .stack-title {
+    font-family: var(--font-body);
+    font-weight: 700;
+  }
+
+  .pixel-label,
+  .stack-title {
+    font-size: 14px;
+  }
+
+  .close-button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+  }
+
+  .dialog-content {
+    min-width: 0;
+    padding: var(--card-padding);
+  }
+
+  .dialog-icon {
+    width: 88px;
+    height: 88px;
+    margin-bottom: var(--stack-gap);
+    border: var(--border-width) solid var(--ink);
+    background: var(--canvas);
+    object-fit: contain;
+  }
+
+  .dialog-title {
+    margin-bottom: var(--stack-gap);
+    font-size: clamp(14px, 4.5vw, 18px);
+    overflow-wrap: anywhere;
+  }
+
+  .dialog-description {
+    max-width: 68ch;
+    margin-bottom: var(--card-padding);
+    overflow-wrap: anywhere;
+  }
+
+  .dialog-metric {
+    margin-bottom: var(--card-padding);
+  }
+  .stack-title {
+    margin-bottom: var(--stack-gap);
+  }
+
+  .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--stack-gap);
+    min-width: 0;
+    margin: 0 0 var(--card-padding);
+    padding: 0;
+    list-style: none;
+  }
+</style>

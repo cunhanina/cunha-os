@@ -1,0 +1,46 @@
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  aria-label="Use Game Boy theme"
+  data-i18n-aria-label="theme.useGameboy"
+  aria-pressed="true"
+>
+  <span class="pixel-label" data-i18n="theme.label">
+    THEME
+  </span>
+  <span class="theme-value" data-theme-value data-i18n="theme.ink">
+    INK
+  </span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--space-unit) / 2);
+    min-height: 44px;
+    padding: calc(var(--stack-gap) / 2) var(--stack-gap);
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .pixel-label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .theme-value {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+</style>

@@ -1,0 +1,406 @@
+---
+import type { Project, SideQuest } from '../data/projects';
+import ProjectIcon from './ProjectIcon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  projects: Project[];
+  sideQuests: SideQuest[];
+}
+
+const { projects, sideQuests }: Props = Astro.props;
+---
+
+<section class="project-section" id="projects" aria-labelledby="projects-title">
+  <div class="container">
+    <SectionHeading id="projects-title" translationKey="section.projects" />
+    <ol class="project-list">
+      {projects.map((project: Project) => (
+        <li class="project-entry" id={`project-card-${project.order}`} data-project-card>
+          <div class="project-main">
+            <span class="project-icon-frame">
+              <ProjectIcon name={project.icon} />
+            </span>
+            <span class="project-copy">
+              <span class="project-heading">
+                <span class="project-number">#{String(project.order).padStart(3, '0')}</span>
+                <span class="project-name" data-i18n={`project.${project.order}.title`}>
+                  {project.title}
+                </span>
+              </span>
+              <span class="project-attributes">
+                <span class="pixel-chip project-type" data-i18n={`project.${project.order}.type`}>
+                  {project.type}
+                </span>
+                <span class="pixel-chip project-context" data-i18n={`project.context.${project.context.toLowerCase()}`}>
+                  {project.context}
+                </span>
+              </span>
+              <span class="project-outcome" data-i18n={`project.${project.order}.outcome`}>
+                {project.outcome}
+              </span>
+              <span
+                class="project-stack"
+                role="list"
+                aria-label={`${project.title} technology stack`}
+                data-i18n-aria-label="projects.techStack"
+              >
+                {project.tech.map((technology: string) => (
+                  <span class="pixel-chip project-tech" role="listitem">
+                    {technology}
+                  </span>
+                ))}
+              </span>
+              <div class="project-actions">
+                <button
+                  class="project-open"
+                  type="button"
+                  data-dialog-target={`project-dialog-${project.order}`}
+                  aria-haspopup="dialog"
+                  aria-controls={`project-dialog-${project.order}`}
+                >
+                  <span data-i18n="projects.openDetails">OPEN DETAILS</span>
+                </button>
+                {project.repo && (
+                  <a
+                    class="card-repo-link"
+                    data-project-repo
+                    href={project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span data-i18n="projects.viewRepo">VIEW REPO</span> <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </div>
+            </span>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <details class="side-quests">
+      <summary class="side-quest-summary">
+        <span class="side-quest-arrow" aria-hidden="true">
+          ▶
+        </span>
+        <span data-i18n="projects.sideQuests">SIDE QUESTS</span>
+      </summary>
+      <ul class="side-quest-list">
+        {sideQuests.map((quest: SideQuest) => (
+          <li class="side-quest-entry">
+            <a href={quest.repo} target="_blank" rel="noopener noreferrer">
+              {quest.name}
+            </a>
+            <span class="side-quest-description" data-i18n={`sidequest.${quest.name}.summary`}>
+              {quest.summary}
+            </span>
+            {quest.demo && (
+              <a class="side-quest-demo" href={quest.demo} target="_blank" rel="noopener noreferrer">
+                <span data-i18n="projects.liveDemo">LIVE DEMO</span> <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </details>
+  </div>
+</section>
+
+<style>
+  .project-section {
+    margin-top: var(--section-gap);
+    scroll-margin-top: var(--page-pad);
+  }
+
+  .project-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-entry {
+    --project-card-padding: clamp(10px, 1vw, 12px);
+    position: relative;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    min-width: 0;
+    gap: var(--stack-gap);
+    padding: var(--project-card-padding);
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    box-shadow: var(--hard-shadow);
+    cursor: pointer;
+  }
+
+  .project-entry:hover {
+    background: var(--canvas);
+  }
+
+  .project-main {
+    display: grid;
+    grid-template-columns: var(--icon-frame) minmax(0, 1fr);
+    align-items: start;
+    height: 100%;
+    min-width: 0;
+    gap: var(--stack-gap);
+  }
+
+  .project-main > *,
+  .project-copy > *,
+  .project-heading > *,
+  .project-attributes > *,
+  .project-stack > * {
+    min-width: 0;
+  }
+
+  .project-icon-frame {
+    display: grid;
+    box-sizing: border-box;
+    width: var(--icon-frame);
+    height: var(--icon-frame);
+    flex: none;
+    padding: 0;
+    place-items: center;
+    border: var(--border-width) solid var(--ink);
+    background: var(--canvas);
+  }
+
+  .project-copy {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .project-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: calc(var(--stack-gap) / 2);
+    margin-bottom: calc(var(--space-unit) / 2);
+  }
+
+  .project-number,
+  .project-name,
+  .project-prompt {
+    font-family: var(--font-body);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .project-number {
+    font-size: 12px;
+  }
+
+  .project-name {
+    font-size: clamp(14px, 4vw, 16px);
+    overflow-wrap: anywhere;
+  }
+
+  .project-attributes,
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--stack-gap) / 2);
+  }
+
+  .project-attributes {
+    margin-bottom: calc(var(--space-unit) / 2);
+  }
+
+  .project-type,
+  .project-context,
+  .project-tech {
+    min-height: 22px;
+    padding: 1px 5px;
+    font-size: 12px;
+  }
+
+  .project-outcome {
+    max-width: 68ch;
+    font-size: 16px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .project-stack {
+    margin-top: calc(var(--space-unit) / 2);
+  }
+
+  .project-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: auto;
+    margin-right: calc(-1 * var(--project-card-padding));
+    margin-bottom: calc(-1 * var(--project-card-padding));
+    padding-top: var(--space-unit);
+  }
+
+  .project-actions > * {
+    min-width: 0;
+  }
+
+  .project-open {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .card-repo-link {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 6px;
+    min-height: 44px;
+    padding: 4px 16px;
+    border: var(--border-width) solid var(--ink);
+    background: var(--ink);
+    color: var(--canvas);
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  .card-repo-link:hover {
+    background: var(--accent);
+  }
+
+  .side-quests {
+    margin-top: var(--card-padding);
+    border-top: var(--border-width) dashed var(--ink);
+  }
+
+  .side-quest-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--stack-gap);
+    min-height: 44px;
+    width: fit-content;
+    padding-block: var(--stack-gap);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .side-quest-summary > *,
+  .side-quest-entry > * {
+    min-width: 0;
+  }
+
+  .side-quest-arrow {
+    display: inline-block;
+  }
+
+  .side-quests[open] .side-quest-arrow {
+    transform: rotate(90deg);
+  }
+
+  .side-quest-list {
+    display: grid;
+    gap: var(--stack-gap);
+    margin: 0;
+    padding: 0 0 var(--stack-gap);
+    list-style: none;
+  }
+
+  .side-quest-entry {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+    align-items: baseline;
+    min-width: 0;
+    gap: calc(var(--stack-gap) / 2) var(--stack-gap);
+    padding: var(--stack-gap);
+    border-left: var(--border-width) solid var(--accent);
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+    font-size: 16px;
+  }
+
+  .side-quest-entry > a:first-child,
+  .side-quest-demo {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .side-quest-demo {
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .side-quest-description {
+    max-width: 68ch;
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 900px) {
+    .project-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-list > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .side-quests[open] .side-quest-arrow {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 559px) {
+    .project-main {
+      gap: var(--space-2);
+    }
+
+    .project-entry {
+      --project-card-padding: clamp(12px, 4vw, 16px);
+      gap: var(--space-2);
+    }
+
+    .project-list {
+      gap: var(--space-2);
+    }
+
+    .project-attributes,
+    .project-stack {
+      gap: var(--space-2);
+    }
+
+    .project-type,
+    .project-context,
+    .project-tech {
+      min-height: 20px;
+      padding: 1px 5px;
+    }
+
+    .card-repo-link {
+      padding-inline: var(--space-2);
+    }
+
+    .side-quest-entry {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 899px) {
+    .project-entry {
+      --project-card-padding: clamp(16px, 3vw, 24px);
+    }
+  }
+</style>

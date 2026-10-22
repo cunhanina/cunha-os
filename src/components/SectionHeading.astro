@@ -1,0 +1,28 @@
+---
+import { translations } from '../i18n';
+import type { TranslationKey } from '../i18n';
+
+interface Props {
+  id: string;
+  translationKey: TranslationKey;
+}
+
+const { id, translationKey }: Props = Astro.props;
+const heading = translations.en[translationKey];
+---
+
+<h2 id={id} class="section-title" data-i18n={translationKey}>
+  {heading}
+</h2>
+
+<style>
+  .section-title {
+    margin-bottom: var(--space-4);
+    font-family: var(--font-pixel);
+    font-size: clamp(14px, 4vw, 18px);
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+</style>

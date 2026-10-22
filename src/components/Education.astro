@@ -1,0 +1,46 @@
+---
+import { education } from '../data/education';
+import SectionHeading from './SectionHeading.astro';
+import TimelineEntry from './TimelineEntry.astro';
+---
+
+<section class="education-section career-panel" id="education" aria-labelledby="education-title">
+  <SectionHeading id="education-title" translationKey="experience.education" />
+  <ol class="timeline-list education-list">
+    {education.map((entry) => (
+      <li>
+        <TimelineEntry entry={entry} />
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .education-section {
+    min-width: 0;
+    scroll-margin-top: var(--page-pad);
+  }
+
+  .timeline-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline-list > li {
+    min-width: 0;
+  }
+
+  .education-list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .education-list > li {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>

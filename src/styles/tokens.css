@@ -1,0 +1,34 @@
+@import '@fontsource/silkscreen/400.css';
+
+:root {
+  color-scheme: light;
+  --canvas: #9bbc0f;
+  --surface: #8bac0f;
+  --ink: #0f380f;
+  --accent: #1c4a16;
+  --muted: color-mix(in srgb, var(--ink) 76%, var(--canvas));
+  --font-pixel: 'Silkscreen', monospace;
+  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --content-width: 1040px;
+  --icon-frame: 64px;
+  --icon-size: 48px;
+  --space-unit: 8px;
+  --border-width: 2px;
+  --hard-shadow: 4px 4px 0 var(--ink);
+  --focus-outline: 3px solid var(--ink);
+}
+
+@media (max-width: 559px) {
+  :root {
+    --icon-frame: 40px;
+    --icon-size: 24px;
+  }
+}
+
+:root[data-theme='ink'] {
+  color-scheme: light;
+  --canvas: #f2f2e8;
+  --surface: #fffef5;
+  --ink: #181c15;
+  --accent: #3f5f1d;
+}

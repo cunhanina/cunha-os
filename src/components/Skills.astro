@@ -1,0 +1,187 @@
+---
+import { skillGroups, skillsPitch } from '../data/skills';
+import SectionHeading from './SectionHeading.astro';
+---
+
+<section class="skills-section container" id="skills" aria-labelledby="skills-title">
+  <SectionHeading id="skills-title" translationKey="section.skills" />
+  <p class="skills-pitch" data-i18n="skills.pitch">
+    {skillsPitch}
+  </p>
+  <div class="skill-groups">
+    {skillGroups.map((group) => (
+      <div class="skill-row pixel-panel">
+        <h3 class="skill-category" data-i18n={`skill.${group.category}`}>
+          {group.category}
+        </h3>
+        <ul class="skill-list" aria-label={group.category} data-i18n-aria-label={`skill.${group.category}`}>
+          {group.skills.map((skill) => {
+            const evidence = skill.evidence?.filter((item) => item.showLink !== false) ?? [];
+            return (
+              <li class="pixel-chip skill-chip">
+                <span data-i18n={`skill.${skill.label}`}>{skill.label}</span>
+                {evidence.length > 0 && (
+                  <details class="skill-evidence">
+                    <summary aria-label="Supporting evidence sources" data-i18n-aria-label="skills.evidenceLabel">
+                      <span data-i18n="skills.evidence">SRC</span>
+                    </summary>
+                    <ul class="skill-evidence-list">
+                      {evidence.map((item) => (
+                        <li>
+                          <a
+                            href={item.href}
+                            target={item.external ? '_blank' : undefined}
+                            rel={item.external ? 'noopener noreferrer' : undefined}
+                          >
+                            <span data-i18n={item.translationKey}>{item.label}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills-section {
+    min-width: 0;
+    margin-top: var(--section-gap);
+    scroll-margin-top: var(--page-pad);
+  }
+
+  .skills-pitch {
+    max-width: 68ch;
+    margin-bottom: var(--space-4);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .skill-groups {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .skill-row {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: var(--space-2);
+    padding: var(--card-padding);
+  }
+
+  .skill-row > * {
+    min-width: 0;
+  }
+
+  .skill-category {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .skill-chip {
+    gap: calc(var(--space-unit) / 2);
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .skill-evidence {
+    position: relative;
+  }
+
+  .skill-evidence summary {
+    display: grid;
+    min-width: 44px;
+    min-height: 44px;
+    place-items: center;
+    padding-inline: calc(var(--stack-gap) / 2);
+    border: var(--border-width) solid transparent;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    font-weight: 700;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .skill-evidence summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .skill-evidence summary:hover,
+  .skill-evidence summary:focus-visible {
+    border-color: var(--ink);
+    background: var(--canvas);
+  }
+
+  .skill-evidence-list {
+    position: absolute;
+    z-index: 2;
+    top: calc(100% + var(--stack-gap) / 2);
+    left: 0;
+    display: grid;
+    gap: calc(var(--stack-gap) / 2);
+    width: max-content;
+    max-width: min(
+      260px,
+      calc(100vw - var(--page-pad) - var(--page-pad) - env(safe-area-inset-left) - env(safe-area-inset-right))
+    );
+    margin: 0;
+    padding: var(--stack-gap);
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    box-shadow: var(--hard-shadow);
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 1.4;
+    list-style: none;
+  }
+
+  .skill-evidence-list {
+    right: 0;
+    left: auto;
+  }
+
+  .skill-evidence:not([open]) .skill-evidence-list {
+    display: none;
+  }
+
+  .skill-evidence-list a {
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 760px) {
+    .skill-groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 639px) {
+    .skill-evidence-list {
+      position: fixed;
+      top: 0;
+      right: auto;
+      left: 0;
+      max-height: calc(100dvh - var(--page-pad) - var(--page-pad));
+      overflow-y: auto;
+    }
+  }
+</style>

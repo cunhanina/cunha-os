@@ -1,0 +1,130 @@
+---
+import { contactLinks } from '../data/contact';
+import SectionHeading from './SectionHeading.astro';
+---
+
+<section class="contact-section" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <SectionHeading id="contact-title" translationKey="section.contact" />
+    <p class="contact-prompt" data-i18n="contact.prompt">
+      Want to team up?
+    </p>
+    <nav aria-label="Contact links" data-i18n-aria-label="contact.links">
+      <ul class="contact-list">
+        {contactLinks.map((link) => (
+          <li>
+            <a
+              class="contact-link"
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+            >
+              <span class="contact-cursor" aria-hidden="true">
+                ▶
+              </span>
+              <span data-i18n={link.translationKey}>{link.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    margin-top: var(--section-gap);
+    scroll-margin-top: var(--page-pad);
+  }
+
+  .contact-section > .container {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .contact-section :global(.section-title) {
+    margin-bottom: 0;
+  }
+
+  .contact-prompt {
+    max-width: 68ch;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--stack-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-list > li {
+    min-width: 0;
+  }
+
+  .contact-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: max-content;
+    min-width: 11rem;
+    min-height: 44px;
+    padding-block: var(--stack-gap);
+    padding-inline: 3rem;
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .contact-link:hover,
+  .contact-link:focus-visible {
+    background: var(--canvas);
+  }
+
+  .contact-link .contact-cursor {
+    position: absolute;
+    inset-inline-start: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    visibility: hidden;
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .contact-link:hover .contact-cursor,
+  .contact-link:focus-visible .contact-cursor {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @media (max-width: 899px) {
+    .contact-section > .container {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .contact-list {
+      flex-direction: column;
+    }
+
+    .contact-link {
+      width: 100%;
+    }
+  }
+</style>

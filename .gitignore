@@ -14,11 +14,23 @@ yarn-error.log*
 pnpm-debug.log*
 
 # environment variables
-.env
-.env.production
+.env*
 
 # macOS-specific files
 .DS_Store
+Thumbs.db
 
 # jetbrains setting folder
 .idea/
+
+# editor and operating system files
+.vscode/
+.vscode/*.log
+*.swp
+*.swo
+
+# test and screenshot output
+test-results/
+playwright-report/
+screenshots/
+artifacts/

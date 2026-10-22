@@ -1,0 +1,33 @@
+---
+import { experience } from '../data/experience';
+import SectionHeading from './SectionHeading.astro';
+import TimelineEntry from './TimelineEntry.astro';
+---
+
+<section class="experience-section career-panel" id="experience" aria-labelledby="experience-title">
+  <SectionHeading id="experience-title" translationKey="section.experience" />
+  <ol class="timeline-list">
+    {experience.map((entry) => (
+      <li>
+        <TimelineEntry entry={entry} />
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .experience-section {
+    min-width: 0;
+    scroll-margin-top: var(--page-pad);
+  }
+
+  .timeline-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline-list > li {
+    min-width: 0;
+  }
+</style>

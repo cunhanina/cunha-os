@@ -1,0 +1,88 @@
+---
+import type { MenuItem } from '../data/navigation';
+
+interface Props {
+  items: MenuItem[];
+}
+
+const { items }: Props = Astro.props;
+---
+
+<nav class="menu" aria-label="Portfolio sections" data-i18n-aria-label="nav.aria">
+  <ul class="menu-list">
+    {items.map((item: MenuItem) => (
+      <li>
+        <a class="menu-link" href={item.href}>
+          <span class="menu-cursor" aria-hidden="true">
+            ▶
+          </span>
+          <span data-i18n={`nav.${item.href.slice(1)}`}>{item.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .menu-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu-list > li {
+    min-width: 0;
+  }
+
+  .menu-link {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 44px;
+    min-width: 0;
+    padding: var(--stack-gap) var(--space-2);
+    border: var(--border-width) solid var(--ink);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .menu-link > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .menu-link:hover,
+  .menu-link:focus-visible {
+    background: var(--canvas);
+  }
+
+  .menu-cursor {
+    position: absolute;
+    top: 50%;
+    left: var(--stack-gap);
+    transform: translateY(-50%);
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .menu-link:hover .menu-cursor,
+  .menu-link:focus-visible .menu-cursor {
+    visibility: visible;
+    opacity: 1;
+    animation: cursor-blink 1s steps(2, end) infinite;
+  }
+
+  @keyframes cursor-blink {
+    to {
+      visibility: hidden;
+    }
+  }
+</style>

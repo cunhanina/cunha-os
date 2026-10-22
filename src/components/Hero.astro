@@ -1,0 +1,317 @@
+---
+import DialogueBox from './DialogueBox.astro';
+import Menu from './Menu.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { menuItems } from '../data/navigation';
+import { profile } from '../data/profile';
+---
+
+<header class="hero container" id="top">
+  <div class="hero-topline">
+    <a class="brandmark pixel-label" href="#top">
+      NINA CUNHA
+    </a>
+    <div class="hero-controls">
+      <ThemeToggle />
+      <label class="language-control">
+        <span class="visually-hidden" data-i18n="language.label">
+          Language
+        </span>
+        <select
+          class="language-select"
+          data-language-select
+          aria-label="Language"
+          data-i18n-aria-label="language.label"
+        >
+          <option value="en">English</option>
+          <option value="pt">Português</option>
+          <option value="de">Deutsch</option>
+        </select>
+        <span class="language-code" data-language-code aria-hidden="true">
+          EN
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="hero-dialogue">
+    <DialogueBox />
+  </div>
+
+  <div class="hero-lower">
+    <Menu items={menuItems} />
+
+    <div class="profile-copy">
+      <p class="pixel-label profile-label" data-i18n="profile.locationLabel">
+        LOCATION
+      </p>
+      <p class="location" data-i18n="profile.location">
+        {profile.location}
+      </p>
+      <a class="cv-link" href={profile.cv} download="Nina_Cunha_CV.pdf">
+        <span data-i18n="profile.downloadCv">DOWNLOAD CV</span> <span aria-hidden="true">↓</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--space-4);
+    row-gap: var(--space-3);
+    padding-top: max(var(--page-pad), env(safe-area-inset-top, 0px));
+    padding-bottom: 0;
+  }
+
+  .hero-topline {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: 0;
+  }
+
+  .hero-dialogue {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .hero-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    flex-wrap: nowrap;
+  }
+
+  .hero-controls > * {
+    min-width: 0;
+  }
+
+  .language-select {
+    appearance: none;
+    width: 128px;
+    height: 44px;
+    min-height: 44px;
+    padding: 4px 32px 4px 12px;
+    border: var(--border-width) solid var(--ink);
+    border-radius: 0;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .language-control {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .language-code {
+    display: none;
+  }
+
+  .language-control::after {
+    position: absolute;
+    top: 50%;
+    right: var(--stack-gap);
+    width: 7px;
+    height: 7px;
+    transform: translateY(-70%) rotate(45deg);
+    border-right: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    content: '';
+    pointer-events: none;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .brandmark {
+    font-size: 14px;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-lower {
+    display: grid;
+    grid-column: 2;
+    grid-row: 2;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+    min-width: 0;
+    align-content: start;
+  }
+
+  .hero-topline > *,
+  .hero-lower > * {
+    min-width: 0;
+  }
+
+  .profile-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .profile-label {
+    grid-column: 1;
+  }
+
+  .location {
+    grid-column: 1;
+    margin-bottom: 0;
+  }
+
+  .cv-link {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: end;
+  }
+
+  .profile-copy > * {
+    min-width: 0;
+  }
+
+  .profile-label {
+    margin-bottom: calc(var(--stack-gap) / 2);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .location {
+    margin-bottom: 0;
+  }
+
+  .cv-link {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+    gap: var(--space-unit);
+    min-height: 44px;
+    padding: calc(var(--stack-gap) / 2) var(--stack-gap);
+    border: var(--border-width) solid var(--ink);
+    background: var(--ink);
+    color: var(--canvas);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .cv-link > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .cv-link > span:first-child {
+    flex: 1 1 0;
+  }
+
+  .cv-link > span:last-child {
+    flex: 0 0 auto;
+  }
+
+  .cv-link:hover {
+    background: var(--accent);
+    color: var(--canvas);
+  }
+
+  @media (max-width: 479px) {
+    .hero-topline {
+      flex-wrap: wrap;
+    }
+
+    .hero-controls {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .theme-toggle {
+      padding-inline: 8px;
+    }
+
+    .language-select {
+      width: 72px;
+      height: 44px;
+      min-width: 0;
+      color: transparent;
+    }
+
+    .language-select option {
+      color: var(--ink);
+    }
+
+    .language-code {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      display: block;
+      transform: translateY(-50%);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      pointer-events: none;
+    }
+
+    .brandmark {
+      flex-basis: 100%;
+    }
+
+    .profile-copy {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .cv-link {
+      grid-column: 1;
+      grid-row: auto;
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-3);
+    }
+
+    .hero-topline {
+      grid-column: 1;
+    }
+
+    .hero-dialogue {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .hero-lower {
+      grid-column: 1;
+      grid-row: 3;
+    }
+  }
+</style>

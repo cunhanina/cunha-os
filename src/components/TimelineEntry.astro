@@ -1,0 +1,282 @@
+---
+import { translations } from '../i18n';
+import type { TimelineEntryData, TranslationKey } from '../types/timeline';
+
+interface Props {
+  entry: TimelineEntryData;
+}
+
+const { entry }: Props = Astro.props;
+const translate = (key: TranslationKey): string => translations.en[key] ?? key;
+const dateText = (value: string): string => {
+  const [year, month] = value.split('-').map(Number);
+  return new Intl.DateTimeFormat('en', { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(
+    new Date(Date.UTC(year, month - 1, 1, 12))
+  );
+};
+const initialDate =
+  'text' in entry.date
+    ? translate(entry.date.text)
+    : `${dateText(entry.date.start)} – ${entry.date.end ? dateText(entry.date.end) : translations.en['timeline.present']}`;
+const titleId = entry.titleId ?? `${entry.id}-title`;
+const metadata = [entry.subtitle, entry.meta, entry.location].filter((key): key is TranslationKey => Boolean(key));
+const company = 'company' in entry ? entry.company : undefined;
+const highlights = 'highlights' in entry ? entry.highlights : undefined;
+---
+
+<article class="timeline-entry" id={entry.id} aria-labelledby={titleId}>
+  <div class="timeline-heading">
+    <h3 class="timeline-title" id={titleId}>
+      <span data-i18n={entry.title}>{translate(entry.title)}</span>
+    </h3>
+    <div class="timeline-heading-aside">
+      {entry.chip && (
+        <span class={`pixel-chip timeline-chip timeline-chip-${entry.chip.variant}`}>
+          {entry.chip.variant === 'current' && <span aria-hidden="true">▶</span>}
+          <span data-i18n={entry.chip.label}>{translate(entry.chip.label)}</span>
+        </span>
+      )}
+      {'text' in entry.date ? (
+        <time class="timeline-date" data-i18n={entry.date.text}>
+          {initialDate}
+        </time>
+      ) : (
+        <time class="timeline-date" data-timeline-start={entry.date.start} data-timeline-end={entry.date.end ?? ''}>
+          {initialDate}
+        </time>
+      )}
+    </div>
+  </div>
+  {(company || metadata.length > 0) && (
+    <p class="timeline-meta">
+      {company && (
+        <>
+          <span class="timeline-company">@ {company}</span>
+          {metadata.length > 0 && <span aria-hidden="true"> · </span>}
+        </>
+      )}
+      {metadata.map((key, index) => (
+        <span>
+          {index > 0 && <span aria-hidden="true"> · </span>}
+          <span data-i18n={key}>{translate(key)}</span>
+        </span>
+      ))}
+    </p>
+  )}
+  {entry.bullets && entry.bullets.length > 0 && (
+    <ul class="timeline-bullets">
+      {entry.bullets.map((bullet) => (
+        <li data-i18n={bullet}>{translate(bullet)}</li>
+      ))}
+    </ul>
+  )}
+  {highlights?.map((highlight) => (
+    <div class="timeline-highlight">
+      <p class="timeline-highlight-heading">
+        <span class="timeline-highlight-label" data-i18n={highlight.label}>
+          {translate(highlight.label)}
+        </span>
+        <span class="timeline-highlight-separator" aria-hidden="true">
+          {' '}
+          ·{' '}
+        </span>
+        <span class="timeline-highlight-note" data-i18n={highlight.note}>
+          {translate(highlight.note)}
+        </span>
+      </p>
+      {highlight.bullets.length > 0 && (
+        <ul class="timeline-bullets">
+          {highlight.bullets.map((bullet) => (
+            <li data-i18n={bullet}>{translate(bullet)}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  ))}
+</article>
+
+<style>
+  .timeline-entry {
+    container-type: inline-size;
+    min-width: 0;
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--ink);
+  }
+
+  .timeline-heading {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    column-gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .timeline-title {
+    flex: 1 1 0;
+    min-width: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: none;
+    overflow-wrap: break-word;
+  }
+
+  .timeline-heading-aside {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+    width: max-content;
+    text-align: right;
+  }
+
+  .timeline-chip {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    width: max-content;
+    min-height: 24px;
+    max-width: none;
+    padding-block: 0;
+    padding-inline: 8px;
+    border-width: var(--border-width);
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .timeline-chip-current {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--canvas);
+  }
+
+  .timeline-chip-current > span {
+    animation: current-cursor 1s steps(2, end) infinite;
+  }
+
+  .timeline-date {
+    flex: none;
+    width: max-content;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .timeline-meta {
+    margin-top: var(--space-2);
+    max-width: 68ch;
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .timeline-company {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .timeline-bullets {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 68ch;
+    margin: var(--space-2) 0 0;
+    padding-left: var(--space-2);
+    line-height: 1.6;
+  }
+
+  .timeline-bullets > li {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .timeline-bullets > li::marker {
+    color: var(--accent);
+  }
+
+  .timeline-highlight {
+    min-width: 0;
+    margin-top: var(--space-3);
+    padding-inline-start: var(--space-3);
+    border-inline-start: 2px solid var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  .timeline-highlight-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    min-width: 0;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .timeline-highlight-label {
+    min-width: 0;
+    font-family: var(--font-pixel);
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .timeline-highlight-note {
+    min-width: 0;
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+  }
+
+  @container (width < 340px) {
+    .timeline-heading {
+      flex-direction: column;
+    }
+
+    .timeline-title {
+      flex: none;
+      width: 100%;
+    }
+
+    .timeline-heading-aside {
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+
+  @container (width < 420px) {
+    .timeline-highlight-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .timeline-highlight-separator {
+      display: none;
+    }
+
+    .timeline-highlight-note::before {
+      content: '· ';
+    }
+  }
+
+  @keyframes current-cursor {
+    to {
+      visibility: hidden;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-chip-current > span {
+      animation: none;
+    }
+  }
+</style>

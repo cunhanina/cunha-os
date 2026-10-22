@@ -1,0 +1,50 @@
+---
+import type { ProjectIconName } from '../data/projects';
+import backupsys from '../assets/project-icons/backupsys.svg?raw';
+import factoryIntegrator from '../assets/project-icons/factory-integrator.svg?raw';
+import visualInspector from '../assets/project-icons/visual-inspector.svg?raw';
+import predictiveMaintenance from '../assets/project-icons/predictive-maintenance.svg?raw';
+import colorSortingConveyor from '../assets/project-icons/conveyor.svg?raw';
+import fire from '../assets/project-icons/pokeroast.svg?raw';
+
+interface Props {
+  name: ProjectIconName;
+  className?: string;
+  size?: number;
+}
+
+const { name, className = '', size } = Astro.props;
+const icons: Record<ProjectIconName, string> = {
+  backupsys,
+  'factory-integrator': factoryIntegrator,
+  'visual-inspector': visualInspector,
+  'predictive-maintenance': predictiveMaintenance,
+  'color-sorting-conveyor': colorSortingConveyor,
+  fire
+};
+---
+
+<span
+  class={['project-icon', className].filter(Boolean).join(' ')}
+  aria-hidden="true"
+  style={size === undefined ? undefined : `--icon-size: ${size}px`}
+  set:html={icons[name]}
+/>
+
+<style>
+  .project-icon {
+    display: block;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    color: var(--ink);
+  }
+
+  .project-icon :global(svg) {
+    display: block;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    margin: 0;
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+</style>
